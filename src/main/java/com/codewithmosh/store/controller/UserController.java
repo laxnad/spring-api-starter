@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping
     public Iterable<UserDto> getAllUsers(
-            @RequestParam(required = false) String sort
+            @RequestParam(required = false, defaultValue = "") String sort
     ) {
         if(!Set.of("name", "email").contains(sort))
             sort = "name";
