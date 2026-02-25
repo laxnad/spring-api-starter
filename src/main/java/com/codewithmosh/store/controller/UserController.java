@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -21,8 +22,11 @@ public class UserController {
 
     @GetMapping
     public Iterable<UserDto> getAllUsers(
-            @RequestParam String sort
+            @RequestParam(required = false) String sort
     ) {
+        if(!Set.of("name", "email").contains(sort))
+            sort = "name";
+
         return userRepository.findAll(Sort.by(sort))
                 .stream()
 //              .map(user -> userMapper.toDto(user))
