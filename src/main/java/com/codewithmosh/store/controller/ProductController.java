@@ -19,8 +19,15 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @GetMapping
-    public List<ProductDto> getAllProducts(){
+    public List<ProductDto> getAllProducts(
+            @RequestParam(name = "categoryId", required = false) Byte categoryId
+    ){
         List<Product> products;
-        return productRepository.findAll().stream().map(productMapper::toDto).toList();
+        if (categoryId != null) {
+            products = productRepository.findByCategoryId(categoryId);
+        } else{
+            products = productRepository.findAll();
+        }
+        return products.stream().map(productMapper::toDto).toList();
     }
 }
